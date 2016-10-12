@@ -5,20 +5,25 @@ Simple HTTP server written in bash script
 == Requirements
 
 * bash
-* nc (netcat)
+* ncat (nmap)
 * file
 * wc
 * cat
+* upnpc (MiniUPnP)
 
 == Usage
 
-./httpd.bash [port]
+./httpd.bash <address> [port]
 
+<address> is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
+Use ipconfig to check it out or use a dash '-' to ignore UPnP.
 (port is default to 3000)
 
 == Warning
 
 This isn't secure. Don't export to internet.
+
+Note from Lisias: I did it, since the UPnP port forward setup. But I used an expandable Raspberry PI box, without any usefull or sensitive data.
 
 == License
 
