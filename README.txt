@@ -23,7 +23,7 @@ Use ipconfig to check it out or use a dash '-' to ignore UPnP.
 
 This isn't secure. Don't export to internet.
 
-Note from Lisias: I did it, since the UPnP port forward setup. But I used an expandable Raspberry PI box, without any usefull or sensitive data.
+Note from Lisias: I did it, since the UPnP port forward setup. But I used an expendable Raspberry PI box, without any usefull or sensitive data.
 
 == License
 
