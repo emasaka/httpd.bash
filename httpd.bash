@@ -2,11 +2,12 @@
 # httpd.bash: simple HTTP server written in bash script
 #
 # usage:
-#   ./httpd.bash <address> [port]
+#   ./httpd.bash <address> [port] [external port]
 #
 #   <address> is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
 #   Use ipconfig to check it out or use a dash '-' to ignore UPnP.
 #   (port is default to 3000)
+#   (external port is default to 8080)
 #
 # requires:
 #   bash, ncat (nmap), file, wc, cat, upnpc
@@ -83,11 +84,23 @@ function run() {
 export -f content_type content_length ok_200 not_implemented_501 not_found_404 dispatch run
 export CRLF SERVERNAME
 
+FINISHCMD=""
 if [ "${1}" != "-" -a "${1}" != "" ]; then
-    upnpc -a ${1} 8080 ${2:-3000} tcp 14400
+    upnpc -a ${1} ${3:8080} ${2:-3000} tcp 14400
+    FINISHCMD="upnpc -d ${3:-8080} tcp "
 fi
+finish() {
+    echo ""
+    if [ "$FINISHCMD" != "" ]; then
+        echo "Shutting down..."
+        eval $FINISHCMD
+    fi
+    echo "Shutdown complete."
+}
+export -f finish
+export FINISHCMD
 
-trap 'echo shutdown.; exit' INT
+trap 'finish; exit' INT
 echo 'Ctrl-C to shutdown server'
 while :; do
     ncat -v -lk -p ${2:-3000} -c 'bash -c run'
