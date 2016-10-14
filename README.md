@@ -20,10 +20,10 @@ Usage
 
 ./httpd.bash [port] < address > [external port]
 
-(port is default to 3000)
-< address > is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
-    Use ipconfig to check it out or use a dash '-' to ignore UPnP.
-(external port is default to 8080)
+	(port is default to 3000)
+	< address > is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
+   	 	Use ipconfig to check it out or use a dash '-' to ignore UPnP.
+	(external port is default to 8080)
 
 
 Warning
@@ -46,6 +46,7 @@ License
 The MIT License
 
 Copyright
+
 	(c) 2016 Lisias T
 	(c) 2009 emasaka
 
