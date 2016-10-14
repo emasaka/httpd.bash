@@ -1,8 +1,11 @@
-= httpd.bash
+httpd.bash
+==========
 
 Simple HTTP server written in bash script
 
-== Requirements
+
+Requirements
+============
 
 * bash
 * ncat (nmap)
@@ -11,7 +14,9 @@ Simple HTTP server written in bash script
 * cat
 * upnpc (MiniUPnP)
 
-== Usage
+
+Usage
+=====
 
 ./httpd.bash [port] <address> [external port]
 
@@ -20,17 +25,29 @@ Simple HTTP server written in bash script
     Use ipconfig to check it out or use a dash '-' to ignore UPnP.
 (external port is default to 8080)
 
-== Warning
+
+Warning
+=======
 
 This isn't secure. Don't export to internet.
 
 Note from Lisias: I did it, since the UPnP port forward setup. But I used an expendable Raspberry PI box, without any usefull or sensitive data.
 
-== License
+
+Forked from
+===========
+
+https://github.com/emasaka/httpd.bash
+
+
+License
+=======
 
 The MIT License
 
-Copyright (c) 2009 emasaka
+Copyright
+	(c) 2016 Lisias T
+	(c) 2009 emasaka
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
