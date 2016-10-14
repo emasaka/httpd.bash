@@ -1,30 +1,54 @@
-= httpd.bash
+httpd.bash
+==========
 
 Simple HTTP server written in bash script
 
-== Requirements
+
+Requirements
+============
 
 * bash
-* nc (netcat)
+* ncat (nmap)
 * file
 * wc
 * cat
+* upnpc (MiniUPnP)
 
-== Usage
 
-./httpd.bash [port]
+Usage
+=====
 
-(port is default to 3000)
+./httpd.bash [port] < address > [external port]
 
-== Warning
+	(port is default to 3000)
+	< address > is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
+   	 	Use ipconfig to check it out or use a dash '-' to ignore UPnP.
+	(external port is default to 8080)
+
+
+Warning
+=======
 
 This isn't secure. Don't export to internet.
 
-== License
+Note from Lisias: I did it, since the UPnP port forward setup. But I used an expendable Raspberry PI box, without any usefull or sensitive data.
+
+
+Forked from
+===========
+
+https://github.com/emasaka/httpd.bash
+
+
+License
+=======
 
 The MIT License
 
-Copyright (c) 2009 emasaka
+Copyright
+
+	(c) 2016 Lisias T
+	(c) 2009 emasaka
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
