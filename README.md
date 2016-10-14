@@ -18,10 +18,10 @@ Requirements
 Usage
 =====
 
-./httpd.bash [port] <address> [external port]
+./httpd.bash [port] < address > [external port]
 
 (port is default to 3000)
-<address> is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
+< address > is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
     Use ipconfig to check it out or use a dash '-' to ignore UPnP.
 (external port is default to 8080)
 
