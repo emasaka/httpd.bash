@@ -1,15 +1,23 @@
 #!/bin/bash
 # httpd.bash: simple HTTP server written in bash script
+#
 # usage:
-#   ./httpd.bash [port]
+#   ./httpd.bash [port] <address> [external port]
+#
 #   (port is default to 3000)
+#   <address> is the adress of the eth that will receive requests. Needed to configure port foward under NAT.
+#       Use ipconfig to check it out or use a dash '-' to ignore UPnP.
+#   (external port is default to 8080)
+#
 # requires:
-#   bash, nc (netcat), file, wc, cat
+#   bash, ncat (nmap), file, wc, cat, upnpc
+#
 # warning:
 #   This isn't secure. Don't export to internet.
+#       I enjoy livin' La Vida Loca!! - Lisias :-)
 
 readonly CRLF=$'\r\n'
-readonly SERVERNAME='httpd.bash/0.01'
+readonly SERVERNAME='httpd.bash/0.2-LST'
 
 function content_type() {
     local file=$1
@@ -49,11 +57,13 @@ function not_found_404() {
 
 function dispatch() {
     local method=$1 path=$2
+    echo $method $path >&2
     if [[ $method == GET ]]; then
         [[ $path == /* ]] && path=".$path"
         path=${path#../}
         path=${path//\/..\//}
         [ -d "$path" ] && path="$path/index.html"
+        echo $path >&2
         if [ -f "$path" ]; then
             ok_200 "$path"
         else
@@ -71,12 +81,27 @@ function run() {
     dispatch "$method" "$path"
 }
 
-export -f content_type content_length ok_200 not_implemented_501 \
-  not_found_404 dispatch run
+export -f content_type content_length ok_200 not_implemented_501 not_found_404 dispatch run
 export CRLF SERVERNAME
 
-trap 'echo shutdown.; exit' INT
+FINISHCMD=""
+if [ "${2}" != "-" -a "${2}" != "" ]; then
+    upnpc -a ${2} ${1:-3000} ${3:-8080} tcp 14400
+    FINISHCMD="upnpc -d ${3:-8080} tcp"
+fi
+finish() {
+    echo ""
+    if [ "$FINISHCMD" != "" ]; then
+        echo "Shutting down..."
+        eval $FINISHCMD
+    fi
+    echo "Shutdown complete."
+}
+export -f finish
+export FINISHCMD
+
+trap 'finish; exit' INT
 echo 'Ctrl-C to shutdown server'
 while :; do
-    nc -l -p ${1:-3000} -c 'bash -c run'
+    ncat -v -lk -p ${1:-3000} -c 'bash -c run'
 done
